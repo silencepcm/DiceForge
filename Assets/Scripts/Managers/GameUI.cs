@@ -2,10 +2,14 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 public class GameUI : MonoBehaviour
 {
 
     private GameManager gameManager;
+    public GameObject win;
+    public GameObject winnerNameText;
+    public GameObject ScoreText;
     private int waitForCubesOnPlate = 0;
     private int lancing = 0;
     private bool ready;
@@ -48,6 +52,22 @@ public class GameUI : MonoBehaviour
     //Called when the game has been won
     public void SetWin()
     {
+        win.GetComponent<UIMovementScript>().activate();
+        int score = 0;
+        string winnerName = "";
+        foreach(var player in gameManager.players)
+        {
+            ScoreText.GetComponent<TextMeshProUGUI>().text += "Player " + player.getName() + ": " + player.getGreen() + "\n";
+            if (player.getGreen() > score)
+            {
+                score = player.getGreen();
+                winnerName = player.getName();
+            }
+        }
+        
+        Debug.Log(winnerNameText);
+        winnerNameText.GetComponent<TextMeshProUGUI>().text = "Joueur " + winnerName + " gagne!";
+        win.GetComponent<UIMovementScript>().activate();
     }
 
     //Called when the 'TRY AGAIN' button is pressed

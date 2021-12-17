@@ -35,13 +35,6 @@ public class FrameMovementScript : MovingObjectScript
     protected override void Update()
     {
         base.Update();
-            if (canMove)
-            {
-                    if (Input.GetKey(KeyCode.KeypadEnter))
-                {
-                    gameManager.players[gameManager.getTour()-1].buy(actualObjattached);
-                }
-            }
     }
 
     public void activate()

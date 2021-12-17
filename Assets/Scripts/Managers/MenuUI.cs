@@ -9,14 +9,9 @@ public class MenuUI : MonoBehaviour
 	private GameObject manager_obj;
 	private bool activated;
 	public GameObject[] inputFields;
-	private Image imageMask;
 	private void Start()
     {
 		manager_obj = GameObject.FindGameObjectWithTag("GameManager");
-		if (SceneManager.GetActiveScene().name == "FirstMenu")
-		{
-			imageMask = GameObject.Find("Mask").GetComponent<Image>();
-		}
 		activated = false;
 	}
     public void PlayButton ()
@@ -56,7 +51,6 @@ public class MenuUI : MonoBehaviour
             if (gameManager.players.Count > 0)
             {
 				SceneManager.LoadScene("Level1");
-				gameManager.StartGame();
             }
             else
             {
@@ -77,14 +71,7 @@ public class MenuUI : MonoBehaviour
 
     private void Update()
     {
-		if (SceneManager.GetActiveScene().name == "FirstMenu")
-		{
-			if (imageMask.color.a > 0f)
-			{
-				float a = Mathf.Lerp(imageMask.color.a, 0f, Time.fixedDeltaTime);
-				imageMask.color = new Vector4(imageMask.color.r, imageMask.color.g, imageMask.color.b, a);
-			}
-		}
+
     }
 
 }

@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     private bool elementsReady = false;
     private bool didAnything = false;
 
+    private bool started = false;
+    private float startWaiter = 0f;
+
 
     [Header("Players")]
     public List<Player> players;
@@ -42,7 +45,6 @@ private bool cameraReady;
 
     private bool twoCubesToChoice;
 
-    private float getCoinWaiter = 0f;
     private bool getCoinWait;
 
     private bool supActiondid = false;
@@ -87,7 +89,6 @@ private bool cameraReady;
             new Vector3(90f, 0f, 0f),
             new Vector3(-90f, 0f, 0f),
         };
-        getCoinWaiter = 0f;
         getCoinWait = false;
     }
 
@@ -111,9 +112,21 @@ private bool cameraReady;
 
     void Update()
     {
+
+        if ((!started) &&(SceneManager.GetActiveScene().name == "Level1")){
+
+            startWaiter += Time.deltaTime;
+            if (startWaiter > 1500f)
+            {
+                StartGame();
+            }
+        }
+
+
+
         if (endTourWait)
         {
-            endTourWaiter += Time.fixedDeltaTime;
+            endTourWaiter += Time.deltaTime;
             Debug.Log(endTourWaiter);
             if (endTourWaiter > 4f)
             {
@@ -127,19 +140,35 @@ private bool cameraReady;
 
         if (getCoinWait)
         {
-            getCoinWaiter += Time.fixedTime;
-            if (getCoinWaiter > 4000f)
+            if ((!choiceCoin.GetComponent<BuyElementScript>().getRotatingToAngle())&&
+                (!choiceCoin.GetComponent<BuyElementScript>().getMoving()) &&
+                (!choiceCoin.GetComponent<BuyElementScript>().getRescaling()))
             {
-                setState(State.ActionSup);
                 choiceCoin.GetComponent<BuyElementScript>().setChoosen();
                 actualCubeChoosen.GetComponent<CubeLancementScript>().setTargetPos(actualCubeChoosen.GetComponent<CubeLancementScript>().getStartPos());
-                getCoinWaiter = 0f;
+                choiceCoin = null;
+                actualCubeChoosen = null;
                 getCoinWait = false;
+                setState(State.ActionSup);
             }
         }
 
         if ((state == State.PlayerLancement)&&(!endTourWait))
         {
+            int end = 0;
+            foreach(var player in players)
+            {
+                if (player.manche == 1)
+                {
+                    end++;
+                }
+            }
+            if(end == players.Count)
+            {
+                gameUI.SetWin();
+                setState(State.EndGame);
+                Debug.Log("End");
+            }
             if ((!didAnything) && (elementsReady))
             {
                 if (Input.GetKey(KeyCode.Return))
@@ -227,12 +256,16 @@ private bool cameraReady;
                 if (Input.GetKey(KeyCode.Space))
                 {
                     endTour();
-                    Debug.Log("EndTour");
                 } else
                     if (Input.GetKey(KeyCode.Return))
                 {
-                    setState(State.Buy);
-                    Debug.Log("YEAH");
+                    if (players[tour - 1].getBlue() >= 2)
+                    {
+                        setState(State.Buy);
+                        choiceCoin = null;
+                        didAnything = false;
+                        actualCubeChoosen = null;
+                    }
                 }
             }
         } 
@@ -360,12 +393,12 @@ private bool cameraReady;
                 else
                     if ((!getCoinWait)&&(Input.GetKey(KeyCode.Return)))
                 {
-                    getCoinWait = true;
                     choiceCoin.transform.SetParent(actualCubeChoosen.transform);
                     choiceCoin.GetComponent<BuyElementScript>().setTargetPos(actualCubeChoosen.GetComponent<CubeLancementScript>().getActualPlastine().transform.position);
                     choiceCoin.GetComponent<BuyElementScript>().setRotAngle(actualCubeChoosen.GetComponent<CubeLancementScript>().getActualPlastine().transform.rotation);
                     choiceCoin.GetComponent<BuyElementScript>().setScale(actualCubeChoosen.GetComponent<CubeLancementScript>().getActualPlastine().transform.localScale);
                     actualCubeChoosen.GetComponent<CubeLancementScript>().setActualPlastine(choiceCoin);
+                    getCoinWait = true;
                 }
                 else
                     if (Input.GetKey(KeyCode.Escape))
@@ -419,6 +452,8 @@ private bool cameraReady;
         {
             players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().SetChoiceState();
             players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().SetChoiceState();
+            choiceCoin = frameScript.actualObjattached;
+            twoCubesToChoice = true;
             frameScript.desactivate();
             camScript.waitForAction();
             waitForActionCamera();
@@ -429,10 +464,7 @@ private bool cameraReady;
     //Called when the game starts
     public void StartGame()
     {
-        foreach(var player in players)
-        {
-            player.initPlateau();
-        }
+        started = true;
         frameScript = GameObject.Find("Frame").GetComponent<FrameMovementScript>();
         gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
         camScript = Camera.main.GetComponent<CameraScript>();
@@ -442,13 +474,12 @@ private bool cameraReady;
         tour = 1;
         supActiondid = false;
         twoCubesToChoice = true;
+        foreach (var player in players)
+        {
+            player.initPlateau();
+        }
         setState(State.PlayerLancement);
         initCubes();
-    }
-
-    public void WinGame()
-    {
-        gameUI.SetWin();                //Set the game over UI screen
     }
     public int getTour()
     {
@@ -468,9 +499,9 @@ private bool cameraReady;
 
     public void endTour()
     {
-        if (supActiondid)
+        if (players[tour - 1].manche < 8)
         {
-
+            players[tour - 1].manche++;
         }
         tour += 1;
         if (tour > players.Count)

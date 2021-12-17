@@ -46,6 +46,18 @@ public class MovingObjectScript : MonoBehaviour
         speedRotate = 6f;
         speedRotateToAngle = 0.1f;
         rotate = false;
+        switch (transform.tag)
+        {
+            case "MainCamera":
+                rotateEndSkip = 0.3f;
+                break;
+            case "Coin":
+                rotateEndSkip = 4f;
+                break;
+            case "Card":
+                rotateEndSkip = 3f;
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -75,19 +87,20 @@ public class MovingObjectScript : MonoBehaviour
                 {
                     canRotate = true;
                 }
-                if (transform.rotation.eulerAngles == targetRotation.eulerAngles)
+                if (Vector3.Distance(transform.rotation.eulerAngles, targetRotation.eulerAngles) < rotateEndSkip)
                 {
+                    transform.rotation = targetRotation;
                     rotateToAngle = false;
                 }
             }
             if (rescaling)
             {
                 transform.localScale = Vector3.Lerp(transform.localScale, targetScale, rescaleSpeed * Time.fixedDeltaTime);
-                if ((!canRescale) && (Vector3.Distance(transform.localScale, targetScale) < rescaleEndSkip))
+                if ((!canRescale) && (Vector3.Distance(transform.localScale, targetScale) <= rescaleEndSkip))
                 {
                     canRescale = true;
                 }
-                if (transform.localScale == targetScale)
+                if (Vector3.Distance(transform.localScale, targetScale) < 1f)
                 {
                     transform.localScale = targetScale;
                     rescaling = false;
@@ -133,7 +146,10 @@ public class MovingObjectScript : MonoBehaviour
         canRescale = false;
     }
 
-
+    public bool getRescaling()
+    {
+        return rescaling;
+    }
     public void startRotate()
     {
         rotate = true;

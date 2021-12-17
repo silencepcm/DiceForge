@@ -26,6 +26,9 @@ public class BuyElementScript : MovingObjectScript
         base.Start();
         speedRotateToAngle = 3f;
         moveSpeed = 2f;
+        rescaleEndSkip = 1f;
+        rotateEndSkip = 0.5f;
+        moveEndSkip = 0.5f;
         choosen = false;
     }
 
@@ -86,10 +89,14 @@ public class BuyElementScript : MovingObjectScript
     }
     public void getCoin(Player player)
     {
+        Camera.main.GetComponent<CameraScript>().setChoiceCoin();
+        coinToCamera();
         Debug.Assert(tag == "Coin");
-        Camera.main.GetComponent<CameraScript>().setChoiceCoin(gameObject);
+        GetComponent<SelectInfoScript>().removeFromTarget();
+        transform.SetParent(null, true);
         Debug.Log("GetCoin");
     }
+
     public void coinToCamera()
     {
         CameraScript cam = Camera.main.GetComponent<CameraScript>();

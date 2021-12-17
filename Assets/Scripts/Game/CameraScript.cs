@@ -81,15 +81,13 @@ public class CameraScript : MovingObjectScript
     {
         waitAction = true;
     }
-    public void setChoiceCoin(GameObject coin)
-    {
-        gameManager.choiceCoin = coin;
-        rotMemory = transform.rotation;
-        setRotAngle(Quaternion.Euler(90f, 180f, 0f));
-        coin.GetComponent<BuyElementScript>().coinToCamera();
-    }
     public void resetChoiceCoin()
     {
         setRotAngle(rotMemory);
+    }
+    public void setChoiceCoin()
+    {
+        rotMemory = transform.rotation;
+        setRotAngle(Quaternion.Euler(90f, 180f, 0f));
     }
 }

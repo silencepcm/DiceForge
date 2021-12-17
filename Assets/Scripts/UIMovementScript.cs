@@ -5,15 +5,14 @@ using UnityEngine;
 public class UIMovementScript : MonoBehaviour
 {
     protected Vector3 spawn;
-    protected Vector3 generalState;
+    public Vector3 generalState;
     protected Vector3 target;
     public bool activated;
     protected bool moving;
     protected float speed;
     protected virtual void Start()
     {
-        spawn = new Vector3(0f, 0f, 0f);
-        generalState = new Vector3(0f, 50f, 0f);
+        spawn = transform.position;
         moving = false;
         speed = 3f;
         activated = false;
@@ -39,10 +38,9 @@ public class UIMovementScript : MonoBehaviour
     {
         activated = true;
         moving = true;
-        target = generalState;
+        target = Camera.main.transform.position + Camera.main.transform.forward * 10f;
+        transform.rotation = Camera.main.transform.rotation;
         activateMod();
-        target.x += GameObject.FindObjectOfType<Canvas>().transform.position.x;
-        target.y += GameObject.FindObjectOfType<Canvas>().transform.position.y;
     }
     public void desactivate()
     {

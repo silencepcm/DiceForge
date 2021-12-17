@@ -45,6 +45,7 @@ public class Player
         cardAddedNum = 0;
         supPlayerPlateNum = 0;
         greenHundreds = 0;
+        manche = 0;
     }
 
     public void initPlateau()
@@ -60,6 +61,7 @@ public class Player
             case 4:
                 plateau = GameObject.Find("plateauRouge"); break;
         }
+        Debug.Log(player_num + "     " + name);
         movingUIcubes = new List<GameObject>
         {
             plateau.transform.Find("First").gameObject,
@@ -87,6 +89,7 @@ public class Player
             gameManager.frameScript.GetComponent<FrameMovementScript>().desactivate();
             if (element.tag == "Coin")
             {
+                gameManager.choiceCoin = element;
                 gameManager.setState(GameManager.State.ChangeDes);
                 Debug.Log("ChoiceCoin");
                 element.GetComponent<BuyElementScript>().getCoin(this);
@@ -187,5 +190,14 @@ public class Player
     public GameObject getCubeTwo()
     {
         return secondCube;
+    }
+
+    public int getGreen() { return green; }
+    public int getRed() { return red; }
+    public int getBlue() { return blue; }
+    public int getGold() { return gold; }
+    public string getName()
+    {
+        return name;
     }
 }
