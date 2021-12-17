@@ -8,7 +8,7 @@ public class GameUI : MonoBehaviour
     private GameManager gameManager;
     private int waitForCubesOnPlate = 0;
     private int lancing = 0;
-
+    private bool ready;
 
     private float noMoneyTimer = 0f;
     private float uiTimerLimit = 3f;
@@ -21,10 +21,16 @@ public class GameUI : MonoBehaviour
         waitForCubesOnPlate = 0;
         lancing = 0;
         noMoney = false;
+        ready = true;
     }
 
     void Update()
     {
+        if((!ready)&& (lancing == 0) && (waitForCubesOnPlate == 0))
+        {
+            ready = true;
+            gameManager.setUIReady();
+        }
         if (noMoney)
         {
             noMoneyTimer += Time.deltaTime;
@@ -79,6 +85,11 @@ public class GameUI : MonoBehaviour
     public void setCubeWait()
     {
         waitForCubesOnPlate++;
+        if (ready)
+        {
+            ready = false;
+            gameManager.waitForActionUI();
+        }
     }
     public void resetCubeWait()
     {
@@ -87,6 +98,11 @@ public class GameUI : MonoBehaviour
     public void setLancing()
     {
         lancing++;
+        if (ready)
+        {
+            ready = false;
+            gameManager.waitForActionUI();
+        }
     }
     public void resetLancing()
     {

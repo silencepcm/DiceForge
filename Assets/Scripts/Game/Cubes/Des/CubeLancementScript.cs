@@ -11,17 +11,19 @@ public class CubeLancementScript : MovingObjectScript
     private Vector3 startPos;
     private Vector3 upPosition;
     private float lineJump;
-    private bool choice;
     public float cubeNum = 0f;
     public GameObject[] plastines = new GameObject[6];
     private Player quiLance = null;
     private float baseSpeed;
+
+    private bool unoRotation = false;
+    private float unoRotWaiter = 0f;
     private void Awake()
     {
         rotations = new List<Vector3>
         {
             new Vector3(0f, 0f, 0f),
-            new Vector3(0f, 0f, 90f),
+            new Vector3(0f, 0f, -90f),
             new Vector3(0f, 0f, 180f),
             new Vector3(0f, 0f, 270f),
             new Vector3(90f, 0f, 0f),
@@ -40,7 +42,6 @@ public class CubeLancementScript : MovingObjectScript
         baseSpeed = moveSpeed;
         speedRotateToAngle = 4f;
         speedRotate = 10f;
-        choice = false;
     }
     protected override void Update()
     {
@@ -48,6 +49,15 @@ public class CubeLancementScript : MovingObjectScript
         if ((!getMoving()) && (moveSpeed != baseSpeed))
         {
             moveSpeed = baseSpeed;
+        }
+        if (unoRotation)
+        {
+            unoRotWaiter += Time.fixedTime;
+            if (unoRotWaiter > 1700f)
+            {
+                unoRotation = false;
+                unoRotWaiter = 0f;
+            }
         }
 
 
@@ -63,7 +73,7 @@ public class CubeLancementScript : MovingObjectScript
 
             } else
             {
-                if ((transform.position.y - startPos.y <= 15f) && (!rotatingToAngle())) //Rotate to our angle
+                if ((transform.position.y - startPos.y <= 15f) && (!getRotatingToAngle())) //Rotate to our angle
                 {
                     setRotAngle(Quaternion.Euler(rotations[position - 1]));
                 }
@@ -72,7 +82,7 @@ public class CubeLancementScript : MovingObjectScript
                 {
                     startedAnim = false;
                     BuyElementScript won = plastines[position - 1].GetComponent<BuyElementScript>();
-                    quiLance.uploadRessourses(won.goldCoin, won.redCoin, won.blueCoin, won.greenCoin);
+                    quiLance.uploadRessourses(won.goldCoin, won.redCoin, won.blueCoin, won.greenCoin, true);
                     GameObject.Find("GameUI").GetComponent<GameUI>().resetLancing();
                 }
             }
@@ -101,10 +111,10 @@ public class CubeLancementScript : MovingObjectScript
             {
                 enterCubesLine = 1;
             }
-            choice = true;
-            setTargetPos(Camera.main.transform.position +
-                Camera.main.transform.forward * 5f - Camera.main.transform.right * 200f+ Camera.main.transform.up * -100f * enterCubesLine);
-            setRotAngle(Camera.main.transform.rotation);
+            CameraScript cam = Camera.main.GetComponent<CameraScript>();
+            Vector3 targetToCamera = new Vector3(cam.getTarget().x + 150f, cam.getTarget().y-800f, cam.getTarget().z+ 150f * enterCubesLine);
+            setTargetPos(targetToCamera);
+            setRotAngle(Quaternion.Euler(-40f, 30f, -15f));
         }
     }
     public void setRotationOtherPlate()
@@ -121,5 +131,37 @@ public class CubeLancementScript : MovingObjectScript
         startPos = transform.position + uploader;
         upPosition = startPos;
         upPosition.y += lineJump;
+    }
+    public GameObject getActualPlastine()
+    {
+        return plastines[position - 1];
+    }
+    public void setActualPlastine(GameObject plastine)
+    {
+        Destroy(plastines[position - 1]);
+        plastines[position - 1] = plastine;
+    }
+    public Vector3 getStartPos()
+    {
+        return startPos;
+    }
+    public Vector3 getActualRotation()
+    {
+        return rotations[position - 1];
+    }
+
+    public void rotateUno(int position)
+    {
+        if (!unoRotation)
+        {
+            unoRotation = true;
+            setRotAngle(Quaternion.Euler(rotations[position - 1]));
+            this.position = position;
+            Debug.Log(position);
+        }
+    }
+    public int getPosition()
+    {
+        return position;
     }
 }

@@ -15,7 +15,7 @@ public class FrameMovementScript : MovingObjectScript
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         base.Start();
-        transform.position = actualObjattached.transform.position;
+        transform.position = new Vector3(actualObjattached.transform.position.x, actualObjattached.transform.position.y+1, actualObjattached.transform.position.z);
         cardScale = new Vector3(17f, 16.5f, 1f);
         coinScale = new Vector3(5f, 3f, 1f);
         if (actualObjattached.tag == "Card")
@@ -141,7 +141,7 @@ public class FrameMovementScript : MovingObjectScript
         }
         if (actualObjattached)
         {
-            setTargetPos(actualObjattached.transform.position);
+            setTargetPos(new Vector3(actualObjattached.transform.position.x, actualObjattached.transform.position.y + 1, actualObjattached.transform.position.z));
             setRotAngle(actualObjattached.transform.rotation);
             typeUpdate();
         }

@@ -51,10 +51,6 @@ public class MovingObjectScript : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (transform.name == "SuperPlate(Clone)")
-        {
-            Debug.Log(moving);
-        }
 
         if (active)
         {
@@ -131,7 +127,7 @@ public class MovingObjectScript : MonoBehaviour
         canRotate = false;
         rotate = false;
     }
-    protected void setScale(Vector3 scale) {
+    public void setScale(Vector3 scale) {
         targetScale = scale;
         rescaling = true;
         canRescale = false;
@@ -155,12 +151,16 @@ public class MovingObjectScript : MonoBehaviour
     {
         return rotate;
     }
-    public bool rotatingToAngle()
+    public bool getRotatingToAngle()
     {
         return rotateToAngle;
     }
     public Vector3 getTarget()
     {
         return target;
+    }
+    public Quaternion getTargetRotation()
+    {
+        return targetRotation;
     }
 }

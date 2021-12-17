@@ -39,7 +39,7 @@ public class Player
         this.player_num = player_num;
         this.name = name;
         red = 5;
-        blue = 5;
+        blue = 6;
         gold = 5;
         green = 5;
         cardAddedNum = 0;
@@ -54,11 +54,11 @@ public class Player
             case 1:
                 plateau = GameObject.Find("plateauNoir"); break;
             case 2:
-                plateau = GameObject.Find("plateauRouge"); break;
+                plateau = GameObject.Find("plateauBleu"); break;
             case 3:
                 plateau = GameObject.Find("plateauVert"); break;
             case 4:
-                plateau = GameObject.Find("plateauBleu"); break;
+                plateau = GameObject.Find("plateauRouge"); break;
         }
         movingUIcubes = new List<GameObject>
         {
@@ -83,7 +83,7 @@ public class Player
         BuyElementScript price = element.GetComponent<BuyElementScript>();
         if ((price.priceBlue <= blue) && (price.priceRed <= red)&& (price.priceGold <= gold) && (price.priceGreen <= green))
         {
-            uploadRessourses(-price.priceGold, -price.priceRed, -price.priceBlue, -price.priceGreen);
+            uploadRessourses(-price.priceGold, -price.priceRed, -price.priceBlue, -price.priceGreen, false);
             gameManager.frameScript.GetComponent<FrameMovementScript>().desactivate();
             if (element.tag == "Coin")
             {
@@ -94,6 +94,7 @@ public class Player
             else
             if (element.tag == "Card")
             {
+                gameManager.setState(GameManager.State.ActionSup);
                 element.GetComponent<BuyElementScript>().getCard(this);
             }
         }
@@ -110,14 +111,13 @@ public class Player
     {
         return cardAddedNum;
     }
-    public void getCoin(GameObject coin)
+    public void uploadRessourses(int Gold, int Red, int Blue, int Green, bool isCubeLanced)
     {
-
-    }
-    public void uploadRessourses(int Gold, int Red, int Blue, int Green)
-    {
-        waitForRessources--;
-        if (waitForRessources > 0)
+        if (isCubeLanced)
+        {
+            waitForRessources--;
+        }
+        if ((waitForRessources > 0)&&(isCubeLanced))
         {
             waitRed += Red;
             waitBlue += Blue;
@@ -126,11 +126,14 @@ public class Player
         }
         else
         {
-            gold = (gold + Gold + waitGold)%(goldMax+1);
+            gold += Gold + waitGold;
+            if (gold > goldMax) gold = goldMax;
             movingUIcubes[0].GetComponent<CubeMovementScipt>().setPoints(gold);
-            red = (red + Red + waitRed) % (redMax + 1);
+            red += Red + waitRed;
+            if (red > redMax) red = redMax;
             movingUIcubes[1].GetComponent<CubeMovementScipt>().setPoints(red);
-            blue = (blue + Blue + waitBlue) % (blueMax + 1);
+            blue += Blue + waitBlue;
+            if (blue > blueMax) blue = blueMax;
             movingUIcubes[2].GetComponent<CubeMovementScipt>().setPoints(blue);
             green += Green + waitGreen;
             if (green >= 100)
@@ -176,5 +179,13 @@ public class Player
         {
             cube.GetComponent<CubeMovementScipt>().upgradeLinepointsMax();
         }
+    }
+    public GameObject getCubeOne()
+    {
+        return firstCube;
+    }
+    public GameObject getCubeTwo()
+    {
+        return secondCube;
     }
 }
