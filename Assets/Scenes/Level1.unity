@@ -1294,7 +1294,7 @@ GameObject:
   - component: {fileID: 211208290}
   - component: {fileID: 211208291}
   m_Layer: 0
-  m_Name: Deer
+  m_Name: Splinter
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1354,7 +1354,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c6aa8cabec81c1541b3684bbb6c61935, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 058999f47a215ab46a57de9b7d1bc7e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1395,15 +1395,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 0}
-  cardsNum: 0
-  greenCoin: 2
+  cardsNum: 1
+  greenCoin: 0
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
-  priceBlue: 2
+  priceBlue: 0
   priceGreen: 0
-  priceRed: 0
+  priceRed: 1
 --- !u!1 &226638564
 GameObject:
   m_ObjectHideFlags: 0
@@ -2165,7 +2165,7 @@ GameObject:
   - component: {fileID: 282332092}
   - component: {fileID: 282332093}
   m_Layer: 0
-  m_Name: Card
+  m_Name: Fleurs
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2225,7 +2225,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bb6e37fab061dd04c820b9482e62d242, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 010f02090f4b193469794321d1d523ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2266,15 +2266,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 0}
-  cardsNum: 0
-  greenCoin: 10
+  cardsNum: 1
+  greenCoin: 2
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
   priceBlue: 0
   priceGreen: 0
-  priceRed: 5
+  priceRed: 1
 --- !u!4 &287143653 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1974031109601557628, guid: 24f40ecb62c165f4381ae77e6df8a37b,
@@ -3371,7 +3371,7 @@ GameObject:
   - component: {fileID: 395209446}
   - component: {fileID: 395209447}
   m_Layer: 0
-  m_Name: OneEyer
+  m_Name: Splinter
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3431,7 +3431,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 754d0bbc74e0e514b93d9b503cc99223, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 058999f47a215ab46a57de9b7d1bc7e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3472,15 +3472,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 0}
-  cardsNum: 0
-  greenCoin: 8
+  cardsNum: 1
+  greenCoin: 0
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
   priceBlue: 0
   priceGreen: 0
-  priceRed: 6
+  priceRed: 1
 --- !u!1 &398078545
 GameObject:
   m_ObjectHideFlags: 0
@@ -4832,7 +4832,7 @@ GameObject:
   - component: {fileID: 593039906}
   - component: {fileID: 593039907}
   m_Layer: 0
-  m_Name: Card
+  m_Name: Fleurs
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4892,7 +4892,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0c6f48dd603afb34fbfb4627f53ed841, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 010f02090f4b193469794321d1d523ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4933,15 +4933,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 0}
-  cardsNum: 0
-  greenCoin: 16
+  cardsNum: 1
+  greenCoin: 2
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
-  priceBlue: 5
+  priceBlue: 0
   priceGreen: 0
-  priceRed: 5
+  priceRed: 1
 --- !u!1001 &600758557
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5585,7 +5585,7 @@ GameObject:
   - component: {fileID: 656440073}
   - component: {fileID: 656440074}
   m_Layer: 0
-  m_Name: Scorpion
+  m_Name: Splinter
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5645,7 +5645,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 661387eb3a7602b4cacc0d7f3dc2cf43, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 058999f47a215ab46a57de9b7d1bc7e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5686,15 +5686,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 0}
-  cardsNum: 0
-  greenCoin: 8
+  cardsNum: 1
+  greenCoin: 0
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
-  priceBlue: 6
+  priceBlue: 0
   priceGreen: 0
-  priceRed: 0
+  priceRed: 1
 --- !u!1 &703195364
 GameObject:
   m_ObjectHideFlags: 0
@@ -8062,7 +8062,7 @@ GameObject:
   - component: {fileID: 948173171}
   - component: {fileID: 948173170}
   m_Layer: 0
-  m_Name: Marteau
+  m_Name: Splinter
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8095,15 +8095,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 0}
-  cardsNum: 4
-  greenCoin: 2
+  cardsNum: 1
+  greenCoin: 0
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
-  priceBlue: 1
+  priceBlue: 0
   priceGreen: 0
-  priceRed: 0
+  priceRed: 1
 --- !u!114 &948173171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8161,7 +8161,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ab5be7a5fa9bb52469413f0f98fd4b58, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 058999f47a215ab46a57de9b7d1bc7e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11198,7 +11198,7 @@ GameObject:
   - component: {fileID: 1306591662}
   - component: {fileID: 1306591663}
   m_Layer: 0
-  m_Name: Piggy
+  m_Name: Fleurs
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11258,7 +11258,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2732f2bc9e8785249a9d83b9fea7abc5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 010f02090f4b193469794321d1d523ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11299,15 +11299,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 0}
-  cardsNum: 0
-  greenCoin: 4
+  cardsNum: 1
+  greenCoin: 2
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
-  priceBlue: 3
+  priceBlue: 0
   priceGreen: 0
-  priceRed: 0
+  priceRed: 1
 --- !u!1001 &1317366092
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12374,7 +12374,7 @@ GameObject:
   - component: {fileID: 1417210797}
   - component: {fileID: 1417210798}
   m_Layer: 0
-  m_Name: SupPlate
+  m_Name: Fleurs
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12434,7 +12434,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bbc483b451d723f469c63c743042a4df, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 010f02090f4b193469794321d1d523ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -12475,15 +12475,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 2073649556}
-  cardsNum: 0
+  cardsNum: 1
   greenCoin: 2
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
-  priceBlue: 1
+  priceBlue: 0
   priceGreen: 0
-  priceRed: 0
+  priceRed: 1
 --- !u!1 &1431406844
 GameObject:
   m_ObjectHideFlags: 0
@@ -12739,7 +12739,7 @@ GameObject:
   - component: {fileID: 1461730208}
   - component: {fileID: 1461730209}
   m_Layer: 0
-  m_Name: Card
+  m_Name: Splinter
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12799,7 +12799,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5451dd76fa7181f48a2f3add647f5e34, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 058999f47a215ab46a57de9b7d1bc7e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -12840,15 +12840,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 0}
-  cardsNum: 0
-  greenCoin: 4
+  cardsNum: 1
+  greenCoin: 0
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
   priceBlue: 0
   priceGreen: 0
-  priceRed: 2
+  priceRed: 1
 --- !u!1 &1470079010
 GameObject:
   m_ObjectHideFlags: 0
@@ -12967,7 +12967,7 @@ GameObject:
   - component: {fileID: 1471317712}
   - component: {fileID: 1471317713}
   m_Layer: 0
-  m_Name: Card
+  m_Name: Fleurs
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13027,7 +13027,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1a80e9b6905f9d84a866cded80be13c2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 010f02090f4b193469794321d1d523ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -13068,15 +13068,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 0}
-  cardsNum: 0
-  greenCoin: 4
+  cardsNum: 1
+  greenCoin: 2
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
-  priceBlue: 5
+  priceBlue: 0
   priceGreen: 0
-  priceRed: 0
+  priceRed: 1
 --- !u!1 &1475288929
 GameObject:
   m_ObjectHideFlags: 0
@@ -13300,7 +13300,7 @@ GameObject:
   - component: {fileID: 1484417817}
   - component: {fileID: 1484417818}
   m_Layer: 0
-  m_Name: Card
+  m_Name: Fleurs
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13360,7 +13360,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e1d96369ae0b1c441aabd562d9bf6c32, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 010f02090f4b193469794321d1d523ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -13401,15 +13401,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 0}
-  cardsNum: 0
-  greenCoin: 6
+  cardsNum: 1
+  greenCoin: 2
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
   priceBlue: 0
   priceGreen: 0
-  priceRed: 3
+  priceRed: 1
 --- !u!1 &1486671400
 GameObject:
   m_ObjectHideFlags: 0
@@ -13705,7 +13705,7 @@ GameObject:
   - component: {fileID: 1539905238}
   - component: {fileID: 1539905239}
   m_Layer: 0
-  m_Name: Card
+  m_Name: Splinter
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13765,7 +13765,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 63c54756d5338bb4f9341bd40a4e7f71, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 058999f47a215ab46a57de9b7d1bc7e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -13806,15 +13806,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 0}
-  cardsNum: 0
-  greenCoin: 14
+  cardsNum: 1
+  greenCoin: 0
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
   priceBlue: 0
   priceGreen: 0
-  priceRed: 4
+  priceRed: 1
 --- !u!1 &1548563989
 GameObject:
   m_ObjectHideFlags: 0
@@ -16550,7 +16550,7 @@ GameObject:
   - component: {fileID: 1888341788}
   - component: {fileID: 1888341789}
   m_Layer: 0
-  m_Name: Card
+  m_Name: Splinter
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16610,7 +16610,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: dc9dfcc31b9975742aa1d34f2386d73e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 058999f47a215ab46a57de9b7d1bc7e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -16651,15 +16651,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SupPlate: {fileID: 0}
-  cardsNum: 0
-  greenCoin: 12
+  cardsNum: 1
+  greenCoin: 0
   goldCoin: 0
   blueCoin: 0
   redCoin: 0
   priceGold: 0
-  priceBlue: 4
+  priceBlue: 0
   priceGreen: 0
-  priceRed: 0
+  priceRed: 1
 --- !u!1 &1893750664
 GameObject:
   m_ObjectHideFlags: 0
