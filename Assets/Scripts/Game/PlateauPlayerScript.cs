@@ -16,10 +16,7 @@ public class PlateauPlayerScript : MovingObjectScript
         }
     }
 
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
+
 
     public void uploadSupplateNum()
     {
