@@ -8,15 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FirstMenu.unity
     guid: f8fe4aae82cf7904192bd53d61e36640
-  - enabled: 1
-    path: Assets/Scenes/Menu.unity
-    guid: 5cfa0444c30b0c447bfa68051ed65d99
-  - enabled: 1
-    path: Assets/Scenes/Settings.unity
-    guid: 3a8e3e53cbccdde4797888a4ffa6a023
-  - enabled: 1
-    path: Assets/Scenes/PlayerChoice.unity
-    guid: 4147cbef5bfdb2344b167f5c655f475b
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: a965ad0954bae6746a1d168d20957ad8

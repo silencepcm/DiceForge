@@ -122,291 +122,298 @@ private bool cameraReady;
             }
         }
 
-
-
-        if (endTourWait)
+        if (started)
         {
-            endTourWaiter += Time.deltaTime;
-            Debug.Log(endTourWaiter);
-            if (endTourWaiter > 4f)
+            if (endTourWait)
             {
-                elementsReady = true;
-                endTourWaiter = 0f;
-                endTourWait = false;
-                endTour();
-            }
-        }
-
-
-        if (getCoinWait)
-        {
-            if ((!choiceCoin.GetComponent<BuyElementScript>().getRotatingToAngle())&&
-                (!choiceCoin.GetComponent<BuyElementScript>().getMoving()) &&
-                (!choiceCoin.GetComponent<BuyElementScript>().getRescaling()))
-            {
-                choiceCoin.GetComponent<BuyElementScript>().setChoosen();
-                actualCubeChoosen.GetComponent<CubeLancementScript>().setTargetPos(actualCubeChoosen.GetComponent<CubeLancementScript>().getStartPos());
-                choiceCoin = null;
-                actualCubeChoosen = null;
-                getCoinWait = false;
-                setState(State.ActionSup);
-            }
-        }
-
-        if ((state == State.PlayerLancement)&&(!endTourWait))
-        {
-            int end = 0;
-            foreach(var player in players)
-            {
-                if (player.manche == 1)
+                endTourWaiter += Time.deltaTime;
+                Debug.Log(endTourWaiter);
+                if (endTourWaiter > 4f)
                 {
-                    end++;
+                    elementsReady = true;
+                    endTourWaiter = 0f;
+                    endTourWait = false;
+                    endTour();
                 }
             }
-            if(end == players.Count)
+
+
+            if (getCoinWait)
             {
-                gameUI.SetWin();
-                setState(State.EndGame);
-                Debug.Log("End");
-            }
-            if ((!didAnything) && (elementsReady))
-            {
-                if (Input.GetKey(KeyCode.Return))
+                if ((!choiceCoin.GetComponent<BuyElementScript>().getRotatingToAngle()) &&
+                    (!choiceCoin.GetComponent<BuyElementScript>().getMoving()) &&
+                    (!choiceCoin.GetComponent<BuyElementScript>().getRescaling()))
                 {
-                    elementsReady = false;
-                    didAnything = true;
-                    actualafkTime = 0f;
-                    gameUI.resetAFK();
-                    foreach (var player in players)
+                    choiceCoin.GetComponent<BuyElementScript>().setChoosen();
+                    actualCubeChoosen.GetComponent<CubeLancementScript>().setTargetPos(actualCubeChoosen.GetComponent<CubeLancementScript>().getStartPos());
+                    choiceCoin = null;
+                    actualCubeChoosen = null;
+                    getCoinWait = false;
+                    setState(State.ActionSup);
+                }
+            }
+            switch (state)
+            {
+                case State.PlayerLancement:
+                    if (!endTourWait)
                     {
-                        if (player.lostRollNum < 1)
+                        int end = 0;
+                        foreach (var player in players)
                         {
-                            player.lancerDes(1);
-                            player.lancerDes(2);
-                            waitForActionUI();
+                            if (player.manche == 1)
+                            {
+                                end++;
+                            }
+                        }
+                        if (end == players.Count)
+                        {
+                            gameUI.SetWin();
+                            setState(State.EndGame);
+                            Debug.Log("End");
+                        }
+                        if ((!didAnything) && (elementsReady))
+                        {
+                            if (Input.GetKey(KeyCode.Return))
+                            {
+                                elementsReady = false;
+                                didAnything = true;
+                                actualafkTime = 0f;
+                                gameUI.resetAFK();
+                                foreach (var player in players)
+                                {
+                                    if (player.lostRollNum < 1)
+                                    {
+                                        player.lancerDes(1);
+                                        player.lancerDes(2);
+                                        waitForActionUI();
+                                    }
+                                    else
+                                    {
+                                        player.lostRollNum--;
+                                        gameUI.setLostRoll();
+                                    }
+                                }
+                            }
+                            else
+                                if (Input.GetKey(KeyCode.Space))
+                            {
+                                endTour();
+                            }
+                        }
+                        else if ((elementsReady) && (!didAnything))
+                        {
+                            actualafkTime += Time.deltaTime;
+                            if (actualafkTime > afkTime)
+                            {
+                                gameUI.setAFK();
+                            }
+                        }
+                        else if ((elementsReady) && (didAnything))
+                        {
+                            setState(State.Buy);
+                        }
+                    }
+                    break;
+                case State.Buy:
+                    if ((!didAnything) && (elementsReady))
+                    {
+                        if (Input.GetKey(KeyCode.LeftArrow))
+                        {
+                            gameUI.resetAFK();
+                            frameScript.setDirection("Left");
+                            camScript.uploadState(frameScript.getNewcamState());
                         }
                         else
+                        if (Input.GetKey(KeyCode.RightArrow))
                         {
-                            player.lostRollNum--;
-                            gameUI.setLostRoll();
+                            gameUI.resetAFK();
+                            frameScript.setDirection("Right");
+                            camScript.uploadState(frameScript.getNewcamState());
+                        }
+                        else
+                        if (Input.GetKey(KeyCode.UpArrow))
+                        {
+                            gameUI.resetAFK();
+                            frameScript.setDirection("Up");
+                            camScript.uploadState(frameScript.getNewcamState());
+                        }
+                        else
+                        if (Input.GetKey(KeyCode.DownArrow))
+                        {
+                            gameUI.resetAFK();
+                            frameScript.setDirection("Down");
+                            camScript.uploadState(frameScript.getNewcamState());
+                        }
+                        else
+                        if (Input.GetKey(KeyCode.Return))
+                        {
+                            didAnything = true;
+                            gameUI.resetAFK();
+                            players[tour - 1].buy(frameScript.actualObjattached);
                         }
                     }
-                }
-                else
-                    if (Input.GetKey(KeyCode.Space))
-                {
-                    endTour();
-                }
-            }
-            else if ((elementsReady) && (!didAnything))
-            {
-                actualafkTime += Time.deltaTime;
-                if (actualafkTime > afkTime)
-                {
-                    gameUI.setAFK();
-                }
-            }
-            else if ((elementsReady) && (didAnything))
-            {
-                setState(State.Buy);
-            }
-        }
-        else if ((!didAnything) && (elementsReady)&&(state == State.Buy))
-        {
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                gameUI.resetAFK();
-                frameScript.setDirection("Left");
-                camScript.uploadState(frameScript.getNewcamState());
-            }
-            else
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                gameUI.resetAFK();
-                frameScript.setDirection("Right");
-                camScript.uploadState(frameScript.getNewcamState());
-            }
-            else
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                gameUI.resetAFK();
-                frameScript.setDirection("Up");
-                camScript.uploadState(frameScript.getNewcamState());
-            }
-            else
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                gameUI.resetAFK();
-                frameScript.setDirection("Down");
-                camScript.uploadState(frameScript.getNewcamState());
-            }
-            else
-            if (Input.GetKey(KeyCode.Return))
-            {
-                didAnything = true;
-                gameUI.resetAFK();
-                players[tour - 1].buy(frameScript.actualObjattached);
-            }
-        }
-        else
-        if(state == State.ActionSup)
-        {
-            if (elementsReady)
-            {
-                if (Input.GetKey(KeyCode.Space))
-                {
-                    endTour();
-                } else
-                    if (Input.GetKey(KeyCode.Return))
-                {
-                    if (players[tour - 1].getBlue() >= 2)
+                    break;
+                case State.ActionSup:
+                    if (elementsReady)
                     {
-                        setState(State.Buy);
-                        choiceCoin = null;
-                        didAnything = false;
-                        actualCubeChoosen = null;
+                        if (Input.GetKey(KeyCode.Space))
+                        {
+                            endTour();
+                        }
+                        else
+                            if (Input.GetKey(KeyCode.Return))
+                        {
+                            if (players[tour - 1].getBlue() >= 2)
+                            {
+                                setState(State.Buy);
+                                choiceCoin = null;
+                                didAnything = false;
+                                actualCubeChoosen = null;
+                            }
+                        }
                     }
-                }
-            }
-        } 
-        else
-        if (state == State.ChangeDes)
-        {
-            if (twoCubesToChoice)
-            {
-                if (Input.GetKey(KeyCode.Alpha1))
-                {
-                    players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().setTargetPos(players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().getStartPos());
-                    players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().setRotAngle(Quaternion.Euler(players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().getActualRotation()));
+                    break;
+                case State.ChangeDes:
+                    if (twoCubesToChoice)
+                    {
+                        if (Input.GetKey(KeyCode.Alpha1))
+                        {
+                            players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().setTargetPos(players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().getStartPos());
+                            players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().setActualRotation();
 
-                    players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().setRotAngle(Quaternion.Euler(players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().getActualRotation()));
-                    players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().setTargetPos(players[tour - 1].getCubeOne().transform.position + new Vector3(-50f, 300f, 150f));
-                    actualCubeChoosen = players[tour - 1].getCubeOne();
-                    twoCubesToChoice = false;
-                }
-                else
-                    if (Input.GetKey(KeyCode.Alpha2))
-                {
-                    players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().setTargetPos(players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().getStartPos());
-                    players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().setRotAngle(Quaternion.Euler(players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().getActualRotation()));
+                            players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().setActualRotation();
+                            players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().setTargetPos(players[tour - 1].getCubeOne().transform.position + new Vector3(-50f, 300f, 150f));
+                            actualCubeChoosen = players[tour - 1].getCubeOne();
+                            twoCubesToChoice = false;
+                        }
+                        else
+                            if (Input.GetKey(KeyCode.Alpha2))
+                        {
+                            players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().setTargetPos(players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().getStartPos());
+                            players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().setActualRotation();
 
-                    players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().setRotAngle(Quaternion.Euler(players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().getActualRotation()));
-                    players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().setTargetPos(players[tour - 1].getCubeTwo().transform.position + new Vector3(-50f, 300f, -150));
-                    actualCubeChoosen = players[tour - 1].getCubeTwo();
-                    twoCubesToChoice = false;
-                }
-            } else
-            {
-                if (Input.GetKey(KeyCode.LeftArrow)) {
-                    switch (actualCubeChoosen.GetComponent<CubeLancementScript>().getPosition())
-                    {
-                        case 1:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(5);
-                            break;
-                        case 2:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(5);
-                            break;
-                        case 3:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(6);
-                            break;
-                        case 4:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(5);
-                            break;
-                        case 5:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(3);
-                            break;
-                        case 6:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(1);
-                            break;
+                            players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().setActualRotation();
+                            players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().setTargetPos(players[tour - 1].getCubeTwo().transform.position + new Vector3(-50f, 300f, -150f));
+                            actualCubeChoosen = players[tour - 1].getCubeTwo();
+                            twoCubesToChoice = false;
+                        }
                     }
-                }
-                else if (Input.GetKey(KeyCode.RightArrow)) {
-                    switch (actualCubeChoosen.GetComponent<CubeLancementScript>().getPosition())
+                    else
                     {
-                        case 1:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(6);
-                            break;
-                        case 2:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(6);
-                            break;
-                        case 3:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(5);
-                            break;
-                        case 4:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(6);
-                            break;
-                        case 5:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(1);
-                            break;
-                        case 6:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(3);
-                            break;
+                        Debug.Log(actualCubeChoosen.GetComponent<CubeLancementScript>().getStatePosition());
+                        if (Input.GetKey(KeyCode.LeftArrow))
+                        {
+                            switch (actualCubeChoosen.GetComponent<CubeLancementScript>().getPosition())
+                            {
+                                case 1:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(5);
+                                    break;
+                                case 2:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(5);
+                                    break;
+                                case 3:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(6);
+                                    break;
+                                case 4:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(5);
+                                    break;
+                                case 5:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(3);
+                                    break;
+                                case 6:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(1);
+                                    break;
+                            }
+                        }
+                        else if (Input.GetKey(KeyCode.RightArrow))
+                        {
+                            switch (actualCubeChoosen.GetComponent<CubeLancementScript>().getPosition())
+                            {
+                                case 1:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(6);
+                                    break;
+                                case 2:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(6);
+                                    break;
+                                case 3:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(5);
+                                    break;
+                                case 4:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(6);
+                                    break;
+                                case 5:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(1);
+                                    break;
+                                case 6:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(3);
+                                    break;
+                            }
+                        }
+                        else if (Input.GetKey(KeyCode.DownArrow))
+                        {
+                            switch (actualCubeChoosen.GetComponent<CubeLancementScript>().getPosition())
+                            {
+                                case 1:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(4);
+                                    break;
+                                case 2:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(1);
+                                    break;
+                                case 3:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(2);
+                                    break;
+                                case 4:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(3);
+                                    break;
+                                case 5:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(2);
+                                    break;
+                                case 6:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(2);
+                                    break;
+                            }
+                        }
+                        else if (Input.GetKey(KeyCode.UpArrow))
+                        {
+                            switch (actualCubeChoosen.GetComponent<CubeLancementScript>().getPosition())
+                            {
+                                case 1:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(2);
+                                    break;
+                                case 2:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(3);
+                                    break;
+                                case 3:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(4);
+                                    break;
+                                case 4:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(1);
+                                    break;
+                                case 5:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(4);
+                                    break;
+                                case 6:
+                                    actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(4);
+                                    break;
+                            }
+                        }
+                        else
+                            if ((!getCoinWait) && (Input.GetKey(KeyCode.Return)))
+                        {
+                            choiceCoin.GetComponent<BuyElementScript>().setCubeOfCoin(actualCubeChoosen);
+                            actualCubeChoosen.GetComponent<CubeLancementScript>().setActualPlastine(choiceCoin);
+                            getCoinWait = true;
+                        }
+                        else
+                            if (Input.GetKey(KeyCode.Escape))
+                        {
+                            players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().SetChoiceState();
+                            players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().SetChoiceState();
+                            twoCubesToChoice = true;
+                        }
                     }
-                }
-                else if (Input.GetKey(KeyCode.DownArrow)) {
-                    switch (actualCubeChoosen.GetComponent<CubeLancementScript>().getPosition())
-                    {
-                        case 1:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(4);
-                            break;
-                        case 2:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(1);
-                            break;
-                        case 3:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(2);
-                            break;
-                        case 4:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(3);
-                            break;
-                        case 5:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(2);
-                            break;
-                        case 6:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(2);
-                            break;
-                    }
-                }
-                else if (Input.GetKey(KeyCode.UpArrow))
-                {
-                    switch (actualCubeChoosen.GetComponent<CubeLancementScript>().getPosition())
-                    {
-                        case 1:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(2);
-                            break;
-                        case 2:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(3);
-                            break;
-                        case 3:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(4);
-                            break;
-                        case 4:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(1);
-                            break;
-                        case 5:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(4);
-                            break;
-                        case 6:
-                            actualCubeChoosen.GetComponent<CubeLancementScript>().rotateUno(4);
-                            break;
-                    }
-                }
-                else
-                    if ((!getCoinWait)&&(Input.GetKey(KeyCode.Return)))
-                {
-                    choiceCoin.transform.SetParent(actualCubeChoosen.transform);
-                    choiceCoin.GetComponent<BuyElementScript>().setTargetPos(actualCubeChoosen.GetComponent<CubeLancementScript>().getActualPlastine().transform.position);
-                    choiceCoin.GetComponent<BuyElementScript>().setRotAngle(actualCubeChoosen.GetComponent<CubeLancementScript>().getActualPlastine().transform.rotation);
-                    choiceCoin.GetComponent<BuyElementScript>().setScale(actualCubeChoosen.GetComponent<CubeLancementScript>().getActualPlastine().transform.localScale);
-                    actualCubeChoosen.GetComponent<CubeLancementScript>().setActualPlastine(choiceCoin);
-                    getCoinWait = true;
-                }
-                else
-                    if (Input.GetKey(KeyCode.Escape))
-                {
-                    players[tour - 1].getCubeOne().GetComponent<CubeLancementScript>().SetChoiceState();
-                    players[tour - 1].getCubeTwo().GetComponent<CubeLancementScript>().SetChoiceState();
-                    twoCubesToChoice = true;
-                }
+                    break;
+
             }
         }
     }

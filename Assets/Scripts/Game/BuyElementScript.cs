@@ -32,11 +32,11 @@ public class BuyElementScript : MovingObjectScript
         choosen = false;
     }
 
-    protected override void Update()
+    protected override void FixedUpdate()
     {
         if (!choosen)
         {
-            base.Update();
+            base.FixedUpdate();
         }
     }
 
@@ -107,5 +107,12 @@ public class BuyElementScript : MovingObjectScript
     public void setChoosen()
     {
         choosen = true;
+    }
+    public void setCubeOfCoin(GameObject cube)
+    {
+        transform.SetParent(cube.transform);
+        setTargetPos(cube.GetComponent<CubeLancementScript>().getActualPlastine().transform.position);
+        setRotAngle(cube.GetComponent<CubeLancementScript>().getActualPlastine().transform.rotation);
+        setScale(cube.GetComponent<CubeLancementScript>().getActualPlastine().transform.localScale);
     }
 }

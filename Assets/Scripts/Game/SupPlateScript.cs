@@ -20,9 +20,9 @@ public class SupPlateScript : MovingObjectScript
         plateau = null;
     }
 
-    protected override void Update()
+    protected override void FixedUpdate()
     {
-        base.Update();
+        base.FixedUpdate();
         if ((transform.parent==null)&&(!getMoving()) && (activated))
         {
             transform.SetParent(plateau.transform);

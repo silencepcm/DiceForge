@@ -21,9 +21,9 @@ public class PlastineScript : MovingObjectScript
         rightDistance = 2f * transform.localScale.x;
     }
 
-    protected override void Update()
+    protected override void FixedUpdate()
     {
-        base.Update();
+        base.FixedUpdate();
         if(state == Statement.Choice)
         {
 

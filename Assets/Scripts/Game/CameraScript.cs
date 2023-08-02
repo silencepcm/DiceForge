@@ -45,18 +45,18 @@ public class CameraScript : MovingObjectScript
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         base.Start();
-        speedRotateToAngle = 1.5f;
+        speedRotateToAngle = 0.05f;
         state = 0;
-        moveSpeed = 1.5f;
-        moveEndSkip = 0.2f;
+        moveSpeed = 0.02f;
+        moveEndSkip = 0.05f;
         uploadState(1);
         waitAction = true;
         rotMemory = transform.rotation;
     }
 
-    protected override void Update()
+    protected override void FixedUpdate()
     {
-        base.Update();
+        base.FixedUpdate();
         if ((waitAction)&&(getMoving())&&(Vector3.Distance(transform.position, getTarget()) < 200f))
         {
             waitAction = false;

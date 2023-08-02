@@ -16,14 +16,19 @@ public class MovingObjectScript : MonoBehaviour
     protected float moveEndSkip = 1f;
     protected float rotateEndSkip = 1f;
     protected float rescaleEndSkip = 1f;
+    private float lerpScalingCount = 0f;
     protected float inputDistanceLimit;
     protected float moveSpeed;
     protected float speedRotateToAngle;
     protected float rescaleSpeed;
     private bool moving;
+    private float lerpMovingCount = 0f;
     private bool rotateToAngle;
+    private float lerpRotateToAngleCount = 0f;
     private bool rescaling;
     private bool rotate;
+    private float lerpRotateCount = 0f;
+
     protected float speedRotate;
 
     protected virtual void Start()
@@ -61,36 +66,38 @@ public class MovingObjectScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    protected virtual void Update()
+    protected virtual void FixedUpdate()
     {
 
         if (active)
         {
             if (moving)
             {
-                transform.position = Vector3.Lerp(transform.position, target, moveSpeed * Time.fixedDeltaTime);
+                transform.position = Vector3.Lerp(transform.position, target, lerpMovingCount);
                 actualDistance = Vector3.Distance(transform.position, target);
-                if ((!canMove) && (actualDistance < inputDistanceLimit))
-                {
-                    canMove = true;
-                }
-                if (actualDistance < moveEndSkip)
+                if (lerpMovingCount>=1f)
                 {
                     transform.position = target;
+                    lerpMovingCount = 0f;
                     moving = false;
+                } else
+                {
+                    lerpMovingCount += moveSpeed * Time.fixedDeltaTime;
                 }
             }
             if (rotateToAngle)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speedRotateToAngle * Time.deltaTime);
-                if ((!canRotate) && (Vector3.Distance(transform.rotation.eulerAngles, targetRotation.eulerAngles)< rotateEndSkip))
-                {
-                    canRotate = true;
-                }
-                if (Vector3.Distance(transform.rotation.eulerAngles, targetRotation.eulerAngles) < rotateEndSkip)
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lerpRotateToAngleCount);
+
+                if (lerpRotateToAngleCount >= 1f)
                 {
                     transform.rotation = targetRotation;
+                    lerpRotateToAngleCount = 0f;
                     rotateToAngle = false;
+                }
+                else
+                {
+                    lerpRotateToAngleCount += speedRotateToAngle * Time.fixedDeltaTime;
                 }
             }
             if (rescaling)
@@ -130,6 +137,7 @@ public class MovingObjectScript : MonoBehaviour
     {
         target = pos;
         moving = true;
+        lerpMovingCount = 0f;
         canMove = false;
         actualDistance = Vector3.Distance(transform.position, target);
     }
@@ -137,12 +145,14 @@ public class MovingObjectScript : MonoBehaviour
     {
         targetRotation = angle;
         rotateToAngle = true;
+        lerpRotateToAngleCount = 0f;
         canRotate = false;
         rotate = false;
     }
     public void setScale(Vector3 scale) {
         targetScale = scale;
         rescaling = true;
+        lerpScalingCount = 0f;
         canRescale = false;
     }
 

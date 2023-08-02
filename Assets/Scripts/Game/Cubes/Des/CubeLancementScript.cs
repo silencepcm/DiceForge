@@ -15,7 +15,7 @@ public class CubeLancementScript : MovingObjectScript
     public GameObject[] plastines = new GameObject[6];
     private Player quiLance = null;
     private float baseSpeed;
-
+    private Quaternion otherSideCubesRotMod;
     private bool unoRotation = false;
     private float unoRotWaiter = 0f;
     private void Awake()
@@ -25,10 +25,11 @@ public class CubeLancementScript : MovingObjectScript
             new Vector3(0f, 0f, 0f),
             new Vector3(0f, 0f, -90f),
             new Vector3(0f, 0f, 180f),
-            new Vector3(0f, 0f, 270f),
+            new Vector3(0f, 0f, -270f),
             new Vector3(90f, 0f, 0f),
             new Vector3(-90f, 0f, 0f),
         };
+        otherSideCubesRotMod = Quaternion.Euler(new Vector3(0f, 1f, 0f));
     }
     protected override void Start()
     {
@@ -43,9 +44,19 @@ public class CubeLancementScript : MovingObjectScript
         speedRotateToAngle = 4f;
         speedRotate = 10f;
     }
-    protected override void Update()
+    protected override void FixedUpdate()
     {
-        base.Update();
+        base.FixedUpdate();
+        if((otherSideCubesRotMod.eulerAngles.y == 1f)&&(quiLance != null))
+        {
+            if ((quiLance.getPlayerNum() == 3) || (quiLance.getPlayerNum() == 4))
+            {
+                otherSideCubesRotMod.y = 180f;
+            } else
+            {
+                otherSideCubesRotMod.y = 0f;
+            }
+        }
         if ((!getMoving()) && (moveSpeed != baseSpeed))
         {
             moveSpeed = baseSpeed;
@@ -59,8 +70,6 @@ public class CubeLancementScript : MovingObjectScript
                 unoRotWaiter = 0f;
             }
         }
-
-
         if (startedAnim)
         {
             if (UpFlight)
@@ -75,7 +84,7 @@ public class CubeLancementScript : MovingObjectScript
             {
                 if ((transform.position.y - startPos.y <= 15f) && (!getRotatingToAngle())) //Rotate to our angle
                 {
-                    setRotAngle(Quaternion.Euler(rotations[position - 1]));
+                    setRotAngle(Quaternion.Euler(rotations[position - 1] + otherSideCubesRotMod.eulerAngles));
                 }
                 else
                 if (Vector3.Distance(transform.position, startPos) < 1.5f)
@@ -83,6 +92,7 @@ public class CubeLancementScript : MovingObjectScript
                     startedAnim = false;
                     BuyElementScript won = plastines[position - 1].GetComponent<BuyElementScript>();
                     quiLance.uploadRessourses(won.goldCoin, won.redCoin, won.blueCoin, won.greenCoin, true);
+                  //  Debug.Log("Gold: " + won.goldCoin + ",  " + "Red: " + won.redCoin + ",  " + "Blue: " + won.blueCoin + ",  " + "Green: " + won.greenCoin );
                     GameObject.Find("GameUI").GetComponent<GameUI>().resetLancing();
                 }
             }
@@ -96,21 +106,19 @@ public class CubeLancementScript : MovingObjectScript
         UpFlight = true;
         setTargetPos(upPosition);
         startRotate();
-        position = Random.Range(1, 6);
+        position = 4;
         quiLance = player;
+    }
+    public int getStatePosition()
+    {
+        return position;
     }
     public void SetChoiceState()
     {
         if (!startedAnim)
         {
-            float enterCubesLine = 0;
-            if (cubeNum == 1){
-                enterCubesLine = -1;
-            }
-            else
-            {
-                enterCubesLine = 1;
-            }
+            float enterCubesLine = cubeNum == 1? -1:1;
+
             CameraScript cam = Camera.main.GetComponent<CameraScript>();
             Vector3 targetToCamera = new Vector3(cam.getTarget().x + 150f, cam.getTarget().y-800f, cam.getTarget().z+ 150f * enterCubesLine);
             setTargetPos(targetToCamera);
@@ -138,7 +146,7 @@ public class CubeLancementScript : MovingObjectScript
     }
     public void setActualPlastine(GameObject plastine)
     {
-        Destroy(plastines[position - 1]);
+        
         plastines[position - 1] = plastine;
     }
     public Vector3 getStartPos()
@@ -148,6 +156,10 @@ public class CubeLancementScript : MovingObjectScript
     public Vector3 getActualRotation()
     {
         return rotations[position - 1];
+    }
+    public void setActualRotation()
+    {
+        setRotAngle(Quaternion.Euler(rotations[position - 1]));
     }
 
     public void rotateUno(int position)
