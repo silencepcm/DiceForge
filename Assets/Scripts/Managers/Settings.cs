@@ -57,7 +57,7 @@ public class Settings
         {
             { "Noir",
                 new Dictionary<int, float>() {
-                    { 1, 39f },
+                    { 1, 39.5f },
                     { 2, 52f },
                     { 3, 52f },
                     { 4, 40f },
