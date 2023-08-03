@@ -34,8 +34,12 @@ public class MovingObjectScript : MonoBehaviour
 
 
     UnityAction state;
+
+    public bool isUI = true;
+
     protected virtual void Start()
     {
+      
         init();
     }
 
@@ -75,25 +79,6 @@ public class MovingObjectScript : MonoBehaviour
         {
             state.Invoke();
         }
-        if (active)
-        {
-            if (isMoving)
-            {
-               
-            }
-            if (isRotatingToAngle)
-            {
-
-            }
-            if (isScaling)
-            {
-              
-            }
-            if (rotate)
-            {
-               
-            }
-        }
     }
     protected float getDistanceMove()
     {
@@ -121,17 +106,22 @@ public class MovingObjectScript : MonoBehaviour
     {
         transform.position = Vector3.Lerp(transform.position, target, lerpMovingCount);
         actualDistance = Vector3.Distance(transform.position, target);
+        Debug.Log("Target: " + target + "    Position: " + transform.position);
         if (lerpMovingCount >= 1f)
         {
-            transform.position = target;
-            lerpMovingCount = 0f;
-            isMoving = false;
-            state -= moving;
+            stopMoving();
         }
         else
         {
             lerpMovingCount += moveSpeed * Time.fixedDeltaTime;
         }
+    }
+    public void stopMoving()
+    {
+        transform.position = target;
+        lerpMovingCount = 0f;
+        isMoving = false;
+        state -= moving;
     }
     public void setRotAngle(Quaternion angle)
     {
@@ -148,15 +138,20 @@ public class MovingObjectScript : MonoBehaviour
 
         if (lerpRotateToAngleCount >= 1f)
         {
-            transform.rotation = targetRotation;
-            lerpRotateToAngleCount = 0f;
-            isRotatingToAngle = false;
-            state -= rotatingToAngle;
+            stopRotatingToAngle();
         }
         else
         {
             lerpRotateToAngleCount += speedRotateToAngle * Time.fixedDeltaTime;
         }
+    }
+
+    public void stopRotatingToAngle()
+    {
+        transform.rotation = targetRotation;
+        lerpRotateToAngleCount = 0f;
+        isRotatingToAngle = false;
+        state -= rotatingToAngle;
     }
     public void setScale(Vector3 scale) {
         targetScale = scale;
@@ -174,10 +169,14 @@ public class MovingObjectScript : MonoBehaviour
         }
         if (Vector3.Distance(transform.localScale, targetScale) < 1f)
         {
-            transform.localScale = targetScale;
-            state -= scaling;
-            isScaling = false;
+            stopScaling();
         }
+    }
+    public void stopScaling()
+    {
+        transform.localScale = targetScale;
+        state -= scaling;
+        isScaling = false;
     }
     public bool getRescaling()
     {

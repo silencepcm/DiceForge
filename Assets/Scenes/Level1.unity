@@ -698,9 +698,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5665049596713408022, guid: 236ece05edb4f214c81cb512e78c8b99,
         type: 3}
+      propertyPath: camScript
+      value: 
+      objectReference: {fileID: 424504240}
+    - target: {fileID: 5665049596713408022, guid: 236ece05edb4f214c81cb512e78c8b99,
+        type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5665049596713408022, guid: 236ece05edb4f214c81cb512e78c8b99,
+        type: 3}
+      propertyPath: frameScript
+      value: 
+      objectReference: {fileID: 276715116}
     - target: {fileID: 5665049596713408022, guid: 236ece05edb4f214c81cb512e78c8b99,
         type: 3}
       propertyPath: supPlatePrefab

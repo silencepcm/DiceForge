@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CubeLancementScript : MovingObjectScript
 {
     private List<Vector3> rotations;
     private int position;
     private bool startedAnim;
-    private bool UpFlight = true;
+    private bool isUpFlight = true;
     private Vector3 startPos;
     private Vector3 upPosition;
     private float lineJump;
@@ -18,6 +19,7 @@ public class CubeLancementScript : MovingObjectScript
     private Quaternion otherSideCubesRotMod;
     private bool unoRotation = false;
     private float unoRotWaiter = 0f;
+    UnityAction state;
     private void Awake()
     {
         rotations = new List<Vector3>
@@ -47,6 +49,10 @@ public class CubeLancementScript : MovingObjectScript
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
+        if (state != null)
+        {
+            state.Invoke();
+        }
         if((otherSideCubesRotMod.eulerAngles.y == 1f)&&(quiLance != null))
         {
             if ((quiLance.getPlayerNum() == 3) || (quiLance.getPlayerNum() == 4))
@@ -70,40 +76,47 @@ public class CubeLancementScript : MovingObjectScript
                 unoRotWaiter = 0f;
             }
         }
-        if (startedAnim)
+  
+    }
+    void UpFlight()
+    {
+        if (!getMoving())
         {
-            if (UpFlight)
-            {
-                if (!getMoving())
-                {
-                    UpFlight = false;
-                    setTargetPos(startPos);
-                }
-
-            } else
-            {
-                if ((transform.position.y - startPos.y <= 15f) && (!getRotatingToAngle())) //Rotate to our angle
-                {
-                    setRotAngle(Quaternion.Euler(rotations[position - 1] + otherSideCubesRotMod.eulerAngles));
-                }
-                else
-                if (Vector3.Distance(transform.position, startPos) < 1.5f)
-                {
-                    startedAnim = false;
-                    BuyElementScript won = plastines[position - 1].GetComponent<BuyElementScript>();
-                    quiLance.uploadRessourses(won.goldCoin, won.redCoin, won.blueCoin, won.greenCoin, true);
-                  //  Debug.Log("Gold: " + won.goldCoin + ",  " + "Red: " + won.redCoin + ",  " + "Blue: " + won.blueCoin + ",  " + "Green: " + won.greenCoin );
-                    GameObject.Find("GameUI").GetComponent<GameUI>().resetLancing();
-                }
-            }
+            state -= UpFlight;
+            isUpFlight = false;
+            StartCoroutine(DownWaiter());
         }
     }
-
+    IEnumerator DownWaiter()
+    {
+        yield return new WaitForSeconds(3f);
+        setTargetPos(startPos);
+        state += DownFlight;
+    }
+    void DownFlight()
+    {
+        if ((transform.position.y - startPos.y <= 15f) && (!getRotatingToAngle())) //Rotate to our angle
+        {
+            stopRotate();
+            setRotAngle(Quaternion.Euler(rotations[position - 1] + otherSideCubesRotMod.eulerAngles));
+        }
+        else
+                  if (Vector3.Distance(transform.position, getTarget()) < 1.5f)
+        {
+            startedAnim = false;
+            state = null;
+            BuyElementScript won = plastines[position - 1].GetComponent<BuyElementScript>();
+            quiLance.uploadRessourses(won.goldCoin, won.redCoin, won.blueCoin, won.greenCoin, true);
+            //  Debug.Log("Gold: " + won.goldCoin + ",  " + "Red: " + won.redCoin + ",  " + "Blue: " + won.blueCoin + ",  " + "Green: " + won.greenCoin );
+            GameObject.Find("GameUI").GetComponent<GameUI>().resetLancing();
+        }
+    }
     public void lancer(Player player)
     {
         GameObject.Find("GameUI").GetComponent<GameUI>().setLancing();
         startedAnim = true;
-        UpFlight = true;
+        isUpFlight = true;
+        state += UpFlight;
         setTargetPos(upPosition);
         startRotate();
         position = 4;

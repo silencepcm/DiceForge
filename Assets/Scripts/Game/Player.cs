@@ -90,14 +90,14 @@ public class Player
             if (element.tag == "Coin")
             {
                 gameManager.choiceCoin = element;
-                gameManager.setState(GameManager.State.ChangeDes);
+                gameManager.setState(GameManager.Instance.ChangeDes);
                 Debug.Log("ChoiceCoin");
                 element.GetComponent<BuyElementScript>().getCoin(this);
             }
             else
             if (element.tag == "Card")
             {
-                gameManager.setState(GameManager.State.ActionSup);
+                gameManager.setState(GameManager.Instance.ActionSup);
                 element.GetComponent<BuyElementScript>().getCard(this);
             }
         }

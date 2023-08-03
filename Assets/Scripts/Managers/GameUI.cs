@@ -52,7 +52,7 @@ public class GameUI : MonoBehaviour
     //Called when the game has been won
     public void SetWin()
     {
-        win.GetComponent<UIMovementScript>().activate();
+       // win.GetComponent<UIMovementScript>().activate();
         int score = 0;
         string winnerName = "";
         foreach(var player in gameManager.players)
@@ -67,7 +67,7 @@ public class GameUI : MonoBehaviour
         
         Debug.Log(winnerNameText);
         winnerNameText.GetComponent<TextMeshProUGUI>().text = "Joueur " + winnerName + " gagne!";
-        win.GetComponent<UIMovementScript>().activate();
+    //    win.GetComponent<UIMovementScript>().activate();
     }
 
     //Called when the 'TRY AGAIN' button is pressed

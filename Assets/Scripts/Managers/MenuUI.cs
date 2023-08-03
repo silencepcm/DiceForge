@@ -54,7 +54,7 @@ public class MenuUI : MonoBehaviour
             }
             else
             {
-				GameObject.Find("WarningMessage").GetComponent<MessageScript>().activate();
+				//GameObject.Find("WarningMessage").GetComponent<MessageScript>().activate();
             }
         }
 	}

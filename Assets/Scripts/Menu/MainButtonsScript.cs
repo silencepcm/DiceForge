@@ -5,29 +5,40 @@ using UnityEngine;
 public class MainButtonsScript : UIMovementScript
 {
     private float lineSep;
+
+    private bool activated = false;
+    public bool activateOnStart;
+    public Transform sizeRect;
     protected override void Start()
     {
+        base.Start();
+        if (activateOnStart)
+        {
+           // activate();
+        }
+
         lineSep = 200f;
-        speed = 3f;
-        spawn = new Vector3(0f, -200f, 0f);
-        generalState = new Vector3(0f, 30f, 0f);
+        Vector3 targetStart = new Vector3(0f, 30f, 0f);
         switch (transform.name)
         {
             case "SkillsButton":
-                generalState.y -= lineSep;
-                spawn = new Vector3(0f, -600f, 0f); break;
+                targetStart.y -= lineSep;
+                break;
             case "QuitButton":
-                generalState.y -= lineSep * 2;
-                spawn = new Vector3(0f, -800f, 0f); break;
+                targetStart.y -= lineSep * 2;
+                break;
         }
-        activate();
+        setTargetPos(targetStart);
     }
-    protected override void desactivateMod()
+
+    public void activate()
     {
-        speed = 2f;
+        activated = true;
+        //setTargetPos(targe)
+      //  speed = 3f;
     }
-    protected override void activateMod()
+    public void desactivate()
     {
-        speed = 3f;
+        activated = false;
     }
 }
